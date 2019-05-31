@@ -1,0 +1,32 @@
+{
+  "name": "@alantech/react-cli",
+  "version": "1.0.8",
+  "description": "React CLI",
+  "main": "index.js",
+  "scripts": {
+    "plop": "plop"
+  },
+  "reactCli": {
+    "basePath": "tests-generated"
+  },
+  "author": "Alan Albuquerque",
+  "bin": {
+    "react-cli": "index.js"
+  },
+  "repository": {
+    "url": ""
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "find-package-json": "1.2.0",
+    "inquirer-fuzzy-path": "2.0.3",
+    "npm-run": "5.0.1",
+    "pkg-dir": "2.0.0",
+    "plop": "2.3.0",
+    "pluralize": "7.0.0",
+    "shelljs": "0.8.3"
+  },
+  "license": "Apache License 2.0"
+}
