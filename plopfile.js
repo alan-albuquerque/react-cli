@@ -25,7 +25,7 @@ module.exports = function (plop) {
       {
         type: 'list',
         name: 'generateType',
-        choices: ['Store'],
+        choices: ['Store', 'Screen'],
         message: 'What you need? 😊'
       }
     ],
@@ -33,51 +33,41 @@ module.exports = function (plop) {
       const {generateType} = data;
       const templateBase = template;
       const extension = template === 'js' ? 'js' : 'ts';
-      var folderName;
+      var foldeToCreateTemplate;
       var templateFolderName;
-
       var directory = basePath;
+
+      function generateAdd(filePrefix, templateFilename) {
+        if (!templateFilename) {
+          templateFilename = filePrefix;
+        }
+        return {
+          type: 'add',
+          skipIfExists: true,
+          path: buildPath(`{{'pascalCase' name}}/${filePrefix}.${extension}`, directory, foldeToCreateTemplate),
+          templateFile: `./templates/${templateFolderName}/${templateBase}/${templateFilename}.tpl`
+        }
+      }
 
       switch (generateType) {
         case 'Store':
-          data.isStore = true;
-          folderName = 'store';
+          foldeToCreateTemplate = 'store';
           templateFolderName = 'store';
-          break;
+          return [
+            generateAdd('index'),
+            generateAdd('types'),
+            generateAdd('actions'),
+            generateAdd('reducer'),
+            generateAdd('effects'),
+          ];
+        case 'Screen':
+          foldeToCreateTemplate = 'screens';
+          templateFolderName = 'screens';
+          return [
+            generateAdd('{{name}}Screen', 'screen'),
+            generateAdd('index'),
+          ];
       }
-
-      return [
-        {
-          type: 'add',
-          skipIfExists: true,
-          path: buildPath(`{{'dashCase' name}}/index.${extension}`, directory, folderName),
-          templateFile: `./templates/${templateFolderName}/${templateBase}/index.tpl`
-        },
-        {
-          type: 'add',
-          skipIfExists: true,
-          path: buildPath(`{{'dashCase' name}}/types.${extension}`, directory, folderName),
-          templateFile: `./templates/${templateFolderName}/${templateBase}/types.tpl`
-        },
-        {
-          type: 'add',
-          skipIfExists: true,
-          path: buildPath(`{{'dashCase' name}}/actions.${extension}`, directory, folderName),
-          templateFile: `./templates/${templateFolderName}/${templateBase}/actions.tpl`
-        },
-        {
-          type: 'add',
-          skipIfExists: true,
-          path: buildPath(`{{'dashCase' name}}/reducer.${extension}`, directory, folderName),
-          templateFile: `./templates/${templateFolderName}/${templateBase}/reducer.tpl`
-        },
-        {
-          type: 'add',
-          skipIfExists: true,
-          path: buildPath(`{{'dashCase' name}}/effects.${extension}`, directory, folderName),
-          templateFile: `./templates/${templateFolderName}/${templateBase}/effects.tpl`
-        },
-      ];
     }
   });
 
